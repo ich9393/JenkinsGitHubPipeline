@@ -1,8 +1,9 @@
 pipeline {
-    agent any //test commit2
-    tools {
+        agent any
+        tools {
         // Install the Maven version configured as "M3" and add it to the path.
-        maven "MVN_HOME"
+         maven "MVN_HOME"
+         jdk "JDK8"
     } 
     stages {
         stage('Static Analysis') {
@@ -15,6 +16,8 @@ pipeline {
                 echo 'Compile the source code'
                 bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
+            post {
+
                 success {
                     junit '**/target/surefire-reports/TEST-*.xml'
                     archiveArtifacts 'target/*.jar'
@@ -43,3 +46,4 @@ pipeline {
             }
         }
     }
+}
